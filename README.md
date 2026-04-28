@@ -10,9 +10,9 @@ The repository contains:
 - the Julia DQMC simulation script (`julia/bond_holstein_square.jl`) used to
   generate the data, built on top of
   [SmoQyDQMC.jl](https://github.com/SmoQySuite/SmoQyDQMC.jl),
-- the resulting electron-density snapshots used as input to the unsupervised
-  and supervised machine-learning analyses (PCA, t-SNE, learning by
-  confusion, and the supervised CNN of Broecker, Assaad and Trebst),
+- the resulting electron-density snapshots used as input to the
+  machine-learning analyses (PCA, t-SNE, learning by confusion, and the
+  CNN method of Broecker, Assaad and Trebst),
 - the LBC test-accuracy outputs, and
 - self-contained Python scripts to reproduce panels of Fig. 6 and Fig. 7
   of the paper.
@@ -243,7 +243,7 @@ python scripts/lbc_train.py \
     --num-epochs 150
 ```
 
-For the Broecker/Assaad/Trebst supervised sweep (one or more values of
+For the Broecker/Assaad/Trebst CNN sweep (one or more values of
 `nskip` per coupling):
 
 ```bash

@@ -1,4 +1,4 @@
-"""Supervised CNN sweep for the bond-Holstein model
+"""CNN sweep for the bond-Holstein model
 (method of Broecker, Assaad and Trebst, ScaiPost Phys. Lect. Notes 11 (2019);
 related to learning by confusion but with a balanced two-class training set
 around each guessed critical value).
