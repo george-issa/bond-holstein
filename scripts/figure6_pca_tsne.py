@@ -101,7 +101,11 @@ def plot_pca_scatter(P1, P2, betas, out_path: Path):
 
 
 def plot_pca_average(P1, P2, betas, L, out_path: Path):
-    """Mean |P_n| vs beta. P1 is rescaled by L so the curves share an axis."""
+    """Mean |P_n| vs beta. P1 is rescaled by L so the curves share an axis.
+
+    beta_c is taken to be the beta where |P_1|/L and 10|P_2| intersect, with
+    sub-grid resolution from linear interpolation between adjacent points.
+    """
     unique_betas = np.unique(betas)
     P1_avg = np.array([np.abs(P1[betas == b]).mean() for b in unique_betas])
     P2_avg = np.array([np.abs(P2[betas == b]).mean() for b in unique_betas])
@@ -111,11 +115,13 @@ def plot_pca_average(P1, P2, betas, L, out_path: Path):
     ax.plot(unique_betas, 10 * P2_avg, "-v", label=r"$10\,|P_2|$")
     ax.set_xlabel(r"$\beta$")
 
-    # Mark the beta where |P1| crosses half its maximum -- a simple proxy for beta_c
-    half = 0.5 * P1_avg.max() / L
-    crossings = np.where(np.diff(np.sign(P1_avg / L - half)))[0]
-    if len(crossings):
-        bc = unique_betas[crossings[0]]
+    diff = (10 * P2_avg) - (P1_avg / L)
+    sign_changes = np.where(np.diff(np.sign(diff)) != 0)[0]
+    if len(sign_changes):
+        i = sign_changes[-1]
+        x0, x1 = unique_betas[i], unique_betas[i + 1]
+        d0, d1 = diff[i], diff[i + 1]
+        bc = x0 - d0 * (x1 - x0) / (d1 - d0) if d1 != d0 else x0
         ax.axvline(bc, color="0.4", linestyle="--", linewidth=0.6,
                    label=fr"$\beta_c \approx {bc:.2f}$")
 

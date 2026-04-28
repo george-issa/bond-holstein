@@ -31,7 +31,7 @@ The repository contains:
 │   │       fixed-beta snapshot directories (sweep over 1/lambda).
 │   │       The combined CSV has shape (N_samples, L*L + 1) with
 │   │       1/lambda in the last column.
-│   ├── accs_w1.00_a<alpha>_L12_seed<seed>-<sID>.csv
+│   ├── accuracies/
 │   │       LBC test accuracy curves (one accuracy per guessed
 │   │       critical beta) for each (alpha, seed, sID) combination.
 │   └── published_phase_diagram.csv
@@ -51,10 +51,6 @@ The repository contains:
 │   ├── Project.toml                    Julia project file
 │   └── Manifest.toml                   resolved versions of SmoQyDQMC, MPI, JLD2
 ├── PCA+tsne.ipynb                      notebook version of figure6_pca_tsne.py
-├── legacy/
-│   ├── Assaad.py                       original supervised CNN script
-│   └── CNN_LBC_Bond_Holstein_betasweep.py
-│                                        original LBC script
 ├── environment.yml                     conda environment spec (Python)
 ├── requirements.txt                    pip-only requirements (Python)
 ├── LICENSE
@@ -64,21 +60,20 @@ The repository contains:
 ## Coupling parameters
 
 The dimensionless bond-Holstein coupling is
-\[
-\lambda_{\rm bond} = \frac{4\alpha^{2}}{\omega_{0}^{2}\,W},\qquad W = 8t,
-\]
-so for `w = 1.0` (the value used throughout the data set) one has
-\[
-\alpha = \sqrt{2\lambda},\qquad 1/\lambda = 2/\alpha^{2}.
-\]
 
-| `alpha` (file naming) | `1/lambda` |
-|----------------------:|-----------:|
-| 0.6325                | 5          |
-| 0.7071                | 4          |
-| 0.8165                | 3          |
-| 1.0000                | 2          |
-| 1.4142                | 1          |
+$$\lambda_{\rm bond} = \frac{4\,\alpha^{2}}{\omega_{0}^{2}\,W},\qquad W = 8t,$$
+
+so for $\omega_{0} = 1$ (the value used throughout the data set) one has
+
+$$\alpha = \sqrt{2\,\lambda},\qquad 1/\lambda = 2/\alpha^{2}.$$
+
+| $\alpha$ (file naming) | $1/\lambda$ |
+|-----------------------:|------------:|
+| 0.6325                 | 5           |
+| 0.7071                 | 4           |
+| 0.8165                 | 3           |
+| 1.0000                 | 2           |
+| 1.4142                 | 1           |
 
 ## Setup
 
@@ -206,7 +201,7 @@ grid:
 
 ```bash
 python scripts/plot_lbc_accuracy.py \
-    data/accs_w1.00_a1.0000_L12_seed*-4.csv \
+    data/accuracies/accs_w1.00_a1.0000_L12_seed*-4.csv \
     --grid 0.15 1.10 --xlabel beta \
     --out figures/lbc_accuracy_a1.0_sID4.pdf
 ```
@@ -265,7 +260,7 @@ python scripts/broecker_train.py \
 mamba activate bond-holstein
 python scripts/figure6_pca_tsne.py
 python scripts/figure7_phase_diagram.py
-python scripts/plot_lbc_accuracy.py data/accs_*.csv --grid 0.15 1.10 --xlabel beta
+python scripts/plot_lbc_accuracy.py data/accuracies/accs_*.csv --grid 0.15 1.10 --xlabel beta
 python scripts/lbc_train.py <input.csv> <out_dir> --tc-min ... --tc-max ... --num-tc ...
 python scripts/broecker_train.py <input.csv> <out_dir> --L 12 --sID 1 --nskip 6
 mamba deactivate

@@ -4,9 +4,9 @@ This directory holds two kinds of files used by the analysis scripts.
 
 ## In this Git repository
 
-* `accs_w<w>_a<alpha>_L<L>_seed<seed>-<sID>.csv` — LBC test accuracy curves
-  (one accuracy per guessed critical inverse temperature) produced by
-  `scripts/lbc_train.py` for each `(alpha, seed, sID)` combination.
+* `accuracies/accs_w<w>_a<alpha>_L<L>_seed<seed>-<sID>.csv` — LBC test
+  accuracy curves (one accuracy per guessed critical inverse temperature)
+  produced by `scripts/lbc_train.py` for each `(alpha, seed, sID)` combination.
 * `published_phase_diagram.csv` — reference `(method, 1/lambda, T)` values
   used by `scripts/figure7_phase_diagram.py` to draw Fig. 7.
 

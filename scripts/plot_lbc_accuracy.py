@@ -94,12 +94,25 @@ def main() -> None:
     ax.set_xlabel(xlabel)
     ax.set_ylabel("Accuracy")
 
-    # mark the interior minimum -- the conventional LBC W-shape estimate
+    # The LBC W-shape has the true critical value at the high-accuracy peak
+    # between the two interior minima.  Find the two interior minima first,
+    # then take the highest-accuracy point strictly between them.
     interior = mean.copy()
     interior[0] = interior[-1] = np.inf
-    imin = int(np.argmin(interior))
-    ax.axvline(grid[imin], color="0.4", linestyle="--", linewidth=0.6,
-               label=fr"min: {args.xlabel}={grid[imin]:.3f}, acc={mean[imin]:.3f}")
+    imin1 = int(np.argmin(interior))
+    masked = interior.copy()
+    lo = max(imin1 - 2, 1)
+    hi = min(imin1 + 2, len(masked) - 1) + 1
+    masked[lo:hi] = np.inf
+    imin2 = int(np.argmin(masked))
+    lo, hi = sorted((imin1, imin2))
+    if hi - lo >= 2:
+        peak_idx_local = int(np.argmax(mean[lo + 1:hi]))
+        ipeak = lo + 1 + peak_idx_local
+    else:
+        ipeak = int(np.argmax(mean[1:-1])) + 1
+    ax.axvline(grid[ipeak], color="0.4", linestyle="--", linewidth=0.6,
+               label=fr"peak: {args.xlabel}={grid[ipeak]:.3f}, acc={mean[ipeak]:.3f}")
     ax.legend()
 
     out = args.out
@@ -109,8 +122,8 @@ def main() -> None:
     fig.savefig(out)
     plt.close(fig)
     print(f"  wrote {out}")
-    print(f"  averaged {curves.shape[0]} curve(s); interior accuracy minimum at "
-          f"{args.xlabel}={grid[imin]:.4f} (acc={mean[imin]:.4f})")
+    print(f"  averaged {curves.shape[0]} curve(s); high-accuracy peak between "
+          f"W minima at {args.xlabel}={grid[ipeak]:.4f} (acc={mean[ipeak]:.4f})")
 
 
 if __name__ == "__main__":
