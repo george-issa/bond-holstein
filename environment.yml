@@ -1,0 +1,17 @@
+name: bond-holstein
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - scikit-learn
+  - pytorch
+  - torchvision
+  - jupyterlab
+  - ipykernel
+  - pip
+  - pip:
+      - tensorflow

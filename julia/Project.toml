@@ -1,0 +1,11 @@
+name = "BondHolstein"
+version = "0.1.0"
+authors = ["bond-Holstein authors"]
+
+[deps]
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+MPI = "da04e1cc-30fd-572f-bb4f-1f8673147195"
+SmoQyDQMC = "00e12d65-277b-447e-9c1d-a17422dd36f5"
+
+[compat]
+julia = "1.10"

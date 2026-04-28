@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+runs/
+*.egg-info/
+
+# Julia
+/julia/.CondaPkg/
+/julia/deps/
+/julia/dev/
+*.cov
+*.jl.cov
+*.jl.mem
+
+# DQMC simulation outputs (live alongside the Julia script when run locally)
+bond_holstein_square_w*/
+
+# Bulk electron-density snapshot CSVs — distributed via Zenodo, not GitHub
+# (individual files exceed GitHub's 100 MB per-file hard limit).
+data/electron_densities_*/
