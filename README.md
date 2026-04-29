@@ -61,7 +61,7 @@ The repository contains:
 
 The dimensionless bond-Holstein coupling is
 
-$$\lambda_{\rm bond} = \frac{4\,\alpha^{2}}{\omega_{0}^{2}\,W},\qquad W = 8t,$$
+$$\lambda_{\rm bond} = \frac{4 \alpha^{2}}{\omega_{0}^{2} W},\qquad W = 8t,$$
 
 so for $\omega_{0} = 1$ (the value used throughout the data set) one has
 
