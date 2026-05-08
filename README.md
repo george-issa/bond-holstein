@@ -13,9 +13,12 @@ The repository contains:
 - the resulting electron-density snapshots used as input to the
   machine-learning analyses (PCA, t-SNE, learning by confusion, and the
   CNN method of Broecker, Assaad and Trebst),
-- the LBC test-accuracy outputs, and
+- the LBC test-accuracy outputs,
 - self-contained Python scripts to reproduce panels of Fig. 6 and Fig. 7
-  of the paper.
+  of the paper, and
+- MATLAB scripts and processed observables (structure factors, energies,
+  double occupancy, atomic-limit specific heat / Binder ratio,
+  phase-diagram points) that reproduce Figs. 2–5 and Fig. 7.
 
 ## Contents
 
@@ -50,6 +53,16 @@ The repository contains:
 │   ├── bond_holstein_square.jl         DQMC simulation script (SmoQyDQMC.jl)
 │   ├── Project.toml                    Julia project file
 │   └── Manifest.toml                   resolved versions of SmoQyDQMC, MPI, JLD2
+├── matlab/
+│   ├── data/                           processed observables consumed by the .m scripts
+│   ├── figure1.m                       Fig. 2 (charge-density snapshots)
+│   ├── figure2.m                       Fig. 3 (S(pi,pi) and finite-size scaling)
+│   ├── figure3.m                       Fig. 4 (kinetic, e-ph and double-occupancy energies)
+│   ├── make_teq0_figure.m              Fig. 5 (atomic-limit C and Binder ratio)
+│   ├── figure4.m                       Fig. 7 (bond- vs. site-Holstein phase diagram)
+│   ├── figure5.m, figure7.m            supporting analyses (d^2 V / dT^2, phase-diagram skeleton)
+│   ├── load_data.m                     helper invoked by figure1.m
+│   └── README.md                       script-to-figure mapping and toolbox requirements
 ├── PCA+tsne.ipynb                      notebook version of figure6_pca_tsne.py
 ├── environment.yml                     conda environment spec (Python)
 ├── requirements.txt                    pip-only requirements (Python)
@@ -77,10 +90,11 @@ $$\alpha = \sqrt{2 \lambda},\qquad 1/\lambda = 2/\alpha^{2}.$$
 
 ## Setup
 
-The pipeline uses two separate environments: a Python environment for the
-machine-learning analysis and figure scripts, and a Julia environment for the
-DQMC simulation.  Each is independent — you only need the one corresponding
-to the work you're doing.
+The pipeline uses three separate environments: a Python environment for the
+machine-learning analysis and Fig. 6/7 scripts, a Julia environment for the
+DQMC simulation, and MATLAB for the Fig. 2–5 and Fig. 7 plotting scripts.
+Each is independent — you only need the one corresponding to the work
+you're doing.
 
 ### Python environment (PCA / t-SNE / LBC / figures)
 
@@ -126,6 +140,13 @@ julia --project=julia -e 'using MPI; MPI.install_mpiexecjl(force=true)'
 
 This places `mpiexecjl` under `~/.julia/bin/`; make sure that directory is on
 your `PATH`.
+
+### MATLAB environment (Figs. 2–5 and 7)
+
+The MATLAB scripts under `matlab/` were written against MATLAB R2023b and
+require the **Curve Fitting Toolbox** (for `csaps` and `fnplt`).  No
+additional toolboxes are needed.  See `matlab/README.md` for the
+script-to-figure mapping.
 
 ## Running the DQMC simulation
 
@@ -174,8 +195,25 @@ the format described under `data/`.
 
 ## Reproducing the figures
 
-All commands below assume the repo root as the working directory and the
-Python `bond-holstein` environment is active.
+The Python commands below assume the repo root as the working directory
+and the `bond-holstein` Python environment is active.  The MATLAB
+commands assume the working directory is `matlab/`.
+
+### Figs. 2–5 and Fig. 7 (MATLAB)
+
+From `matlab/`:
+
+```matlab
+figure1            % Fig. 2 — charge density snapshots, writes ../figures/figure1.png
+figure2            % Fig. 3 — S(pi,pi) and finite-size scaling, writes ../figures/figure2.pdf
+figure3            % Fig. 4 — K, V and D vs. T, writes ../figures/figure3.pdf
+make_teq0_figure   % Fig. 5 — atomic-limit C and B, writes ../figures/teq0.pdf
+figure4            % Fig. 7 — bond- vs. site-Holstein phase diagram, writes ../figures/phase_diagram.png
+```
+
+`figure5.m` and `figure7.m` are kept for completeness as supporting
+analyses (the $d^2\mathcal{V}/dT^2$ plot and a bare phase-diagram
+skeleton); they do not produce published panels on their own.
 
 ### Fig. 6 (a)-(c): PCA and t-SNE at fixed coupling
 
@@ -268,6 +306,12 @@ mamba deactivate
 # Julia (DQMC simulation)
 julia --project=julia julia/bond_holstein_square.jl <args...>
 mpiexecjl --project=julia -n <N> julia julia/bond_holstein_square.jl <args...>
+```
+
+```matlab
+% MATLAB (Figs. 2–5 and Fig. 7)
+cd matlab
+figure1; figure2; figure3; make_teq0_figure; figure4
 ```
 
 ## Citation
