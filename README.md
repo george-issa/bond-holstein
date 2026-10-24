@@ -3,7 +3,8 @@
 Code and data for the manuscript
 
 > C. Jordan, G. Issa, E. Khatami, R. Scalettar, B. Cohen-Stead, S. Johnston,
-> *Charge order in the half-filled bond-Holstein model*, Phys. Rev. B (accepted).
+> *Charge order in the half-filled bond-Holstein model*,
+> [Phys. Rev. B **113**, 235101 (2026)](https://doi.org/10.1103/t11z-24yd).
 
 The repository contains:
 
@@ -316,5 +317,18 @@ figure1; figure2; figure3; make_teq0_figure; figure4
 
 ## Citation
 
-If you use this data or code, please cite the published article (full
-reference at the top of this file).
+If you use this data or code, please cite the published article:
+
+```bibtex
+@article{Jordan2026,
+  title   = {Charge order in the half-filled bond-Holstein model},
+  author  = {Jordan, Charles and Issa, George and Khatami, Ehsan and
+             Scalettar, Richard and Cohen-Stead, Benjamin and Johnston, Steven},
+  journal = {Phys. Rev. B},
+  volume  = {113},
+  issue   = {23},
+  pages   = {235101},
+  year    = {2026},
+  doi     = {10.1103/t11z-24yd}
+}
+```
